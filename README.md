@@ -1,4 +1,6 @@
-# Guipu（归普）
+# Guipu（归朴）
+
+**产品命名（固定）**：简体中文 **归朴**；英文 **Grepu** / **GREPU**；应用包名 **`com.app.guipu`**。中文名用字为「朴」勿作「归普」。
 
 本仓库为 **Guipu** 工作区：产品文档、About 站点，以及通过 Git submodule 引入的 **Grepu iOS 工程**。
 
