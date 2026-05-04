@@ -1,0 +1,3 @@
+[submodule "Grepu"]
+	path = com.app.guipu/Grepu
+	url = https://github.com/kinwah0706-crypto/Grepu.git

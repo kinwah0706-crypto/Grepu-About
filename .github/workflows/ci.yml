@@ -1,0 +1,25 @@
+# 父仓包含子模块 com.app.guipu/Grepu；检出时必须拉取 submodule，否则路径为空。
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  checkout-with-submodules:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          # 若 Grepu 子模块为私有仓库，取消下一行注释并在仓库 Secrets 中配置令牌：
+          # token: ${{ secrets.REPO_ACCESS_TOKEN }}
+
+      - name: Submodule status
+        run: git submodule status
+
+      - name: Verify Grepu submodule tree
+        run: test -f com.app.guipu/Grepu/Grepu.xcodeproj/project.pbxproj
