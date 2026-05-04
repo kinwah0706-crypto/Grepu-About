@@ -1,0 +1,9 @@
+.DS_Store
+.cursor/
+.git.broken-backup*/
+**/.DS_Store
+**/xcuserdata/
+**/*.xcuserstate
+**/DerivedData/
+build/
+素材收集/

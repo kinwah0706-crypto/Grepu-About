@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>Grepu (歸朴) – 静态页面概念稿</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --font-main: "Nunito", "HarmonyOS Sans", "Noto Sans SC", sans-serif;
+      --color-bg: #f8fafc;
+      --color-bg-panel: rgba(255, 255, 255, 0.75);
+      --color-text-main: #1f2933;
+      --color-text-secondary: #4b5563;
+      --color-accent: #6c7b95;
+      --color-accent-soft: #b5c7f2;
+      --color-highlight: #e6d5f7;
+      --color-success: #5fb995;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --shadow-soft: 0 18px 40px rgba(108, 123, 149, 0.15);
+      --gradient-hero: linear-gradient(160deg, #6c7b95, #b5c7f2 55%, #f8fafc);
+      --gradient-card: linear-gradient(135deg, rgba(181, 199, 242, 0.6), rgba(230, 213, 247, 0.6));
+      --blur: blur(18px);
+      --transition: all 0.45s ease;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font-main);
+      background: var(--color-bg);
+      color: var(--color-text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3 { margin: 0; font-weight: 700; }
+    p { margin: 12px 0; color: var(--color-text-secondary); }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 80px 24px;
+      gap: 32px;
+    }
+    .page-hero {
+      background: var(--gradient-hero);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before,
+    .page-hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.35;
+    }
+    .page-hero::before {
+      width: 420px; height: 420px;
+      background: #e6d5f7;
+      top: -120px; right: -100px;
+    }
+    .page-hero::after {
+      width: 360px; height: 360px;
+      background: #b5c7f2;
+      bottom: -140px; left: -80px;
+    }
+
+    .hero-content {
+      max-width: 1080px;
+      padding: 48px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 40px 80px rgba(24, 44, 77, 0.25);
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      z-index: 1;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(6px);
+    }
+    .hero-title {
+      font-size: clamp(32px, 4vw, 44px);
+      line-height: 1.2;
+      margin: 24px 0;
+    }
+    .hero-desc { font-size: 18px; max-width: 540px; }
+
+    .hero-widget {
+      background: rgba(255, 255, 255, 0.22);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      color: #fff;
+      box-shadow: 0 20px 40px rgba(36, 64, 118, 0.28);
+    }
+    .hero-widget h3 {
+      font-weight: 600;
+      font-size: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .hero-widget .breathing-circle {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.85), rgba(230,213,247,0.55));
+      animation: breathing 7s ease-in-out infinite;
+      box-shadow: inset 0 0 40px rgba(255,255,255,0.35);
+    }
+    @keyframes breathing {
+      0%, 100% { transform: scale(0.92); opacity: 0.85; }
+      50% { transform: scale(1.06); opacity: 1; }
+    }
+    .hero-widget .quote {
+      text-align: center;
+      font-style: italic;
+      opacity: 0.86;
+    }
+
+    .section-title {
+      max-width: 1080px;
+      width: 100%;
+    }
+    .section-title h2 {
+      font-size: clamp(28px, 3vw, 36px);
+      margin-bottom: 12px;
+    }
+    .section-title p {
+      max-width: 640px;
+    }
+
+    .card-grid {
+      width: 100%;
+      max-width: 1080px;
+      display: grid;
+      gap: 24px;
+    }
+
+    /* 首页（Home） */
+    .home-preview {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .home-card {
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .home-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--gradient-card);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 0;
+    }
+    .home-card:hover {
+      transform: translateY(-6px);
+    }
+    .home-card:hover::after { opacity: 1; }
+    .home-card-content {
+      position: relative;
+      z-index: 1;
+    }
+    .home-card h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+    .mini-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(108, 123, 149, 0.1);
+      color: var(--color-accent);
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    /* 心灵世界 */
+    .garden-preview {
+      background: linear-gradient(180deg, rgba(181, 199, 242, 0.22), rgba(246, 248, 252, 0.92));
+      padding: 48px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      max-width: 1080px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .garden-canvas {
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(140deg, #b5c7f2, #e6d5f7 65%, #fdf7f2);
+      position: relative;
+      overflow: hidden;
+    }
+    .floating-item {
+      position: absolute;
+      border-radius: 24px;
+      padding: 12px 18px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: 0 16px 32px rgba(108, 123, 149, 0.2);
+      animation: float 8s ease-in-out infinite;
+    }
+    .floating-item:nth-child(1) { top: 18%; left: 12%; animation-delay: -1s; }
+    .floating-item:nth-child(2) { top: 68%; left: 22%; animation-delay: -3s; }
+    .floating-item:nth-child(3) { top: 32%; right: 18%; animation-delay: -5s; }
+    .floating-item:nth-child(4) { bottom: 14%; right: 10%; animation-delay: -7s; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-16px); }
+    }
+
+    .energy-stats {
+      display: flex;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .energy-card {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      box-shadow: var(--shadow-soft);
+    }
+    .energy-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--color-accent);
+    }
+
+    /* 报告页面 */
+    .report-preview {
+      max-width: 1080px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 32px;
+    }
+    .report-card {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+    .chart-placeholder {
+      height: 220px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(160deg, rgba(108, 123, 149, 0.12), rgba(230, 213, 247, 0.25));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-accent);
+      font-weight: 600;
+      letter-spacing: 0.6px;
+    }
+    .report-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .indicator-card {
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: var(--shadow-soft);
+    }
+    .trend-up { color: var(--color-success); font-weight: 600; }
+    .trend-down { color: #e67b7b; font-weight: 600; }
+
+    /* 个人中心 */
+    .profile-preview {
+      max-width: 1080px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 32px;
+    }
+    .profile-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-soft);
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(140deg, #b5c7f2, #e6d5f7);
+      display: grid;
+      place-content: center;
+      font-weight: 700;
+      color: #fff;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 6px 14px;
+      background: rgba(95, 185, 149, 0.15);
+      color: var(--color-success);
+      font-weight: 600;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .stat-tile {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: var(--shadow-soft);
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--color-accent);
+    }
+    .settings-list {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .settings-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      background: rgba(108, 123, 149, 0.06);
+    }
+    .settings-item strong { color: var(--color-accent); }
+
+    /* 主题画廊 */
+    .themes-preview {
+      max-width: 1080px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .theme-card {
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+      height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .theme-card.default {
+      background: linear-gradient(150deg, #6c7b95, #b5c7f2 65%);
+    }
+    .theme-card.serenity {
+      background: linear-gradient(150deg, #5fb995, #b4c6a6 65%);
+    }
+    .theme-card.aurora {
+      background: linear-gradient(150deg, #8f97c7, #c8bed8 65%);
+    }
+    .theme-lock {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.25);
+      font-size: 13px;
+      letter-spacing: 0.4px;
+    }
+    .theme-card footer {
+      font-size: 14px;
+      opacity: 0.85;
+    }
+
+    /* 底部 */
+    footer {
+      padding: 48px 24px 64px;
+      background: #111827;
+      color: rgba(255, 255, 255, 0.72);
+      text-align: center;
+      font-size: 14px;
+      letter-spacing: 0.4px;
+    }
+    footer a { color: #a7bfc9; text-decoration: none; }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .hero-content,
+      .garden-preview,
+      .report-preview,
+      .profile-preview {
+        grid-template-columns: 1fr;
+      }
+      .hero-widget { order: -1; }
+    }
+
+    @media (max-width: 720px) {
+      .hero-content { padding: 32px 24px; }
+      .garden-preview { padding: 32px; }
+      .chart-placeholder { height: 180px; }
+      .energy-stats { flex-direction: column; }
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 页面 #01 ｜ Hero + 新手引导 -->
+  <section class="page page-hero">
+    <div class="hero-content">
+      <div>
+        <span class="tag">呼吸 · 冥想 · 心灵世界</span>
+        <h1 class="hero-title">Grepu (歸朴)：构建全新的内心世界</h1>
+        <p class="hero-desc">
+          据《需求 / PRD / 设计指导文档》，应用以“每日 3-5 分钟呼吸引导 + 游戏化养成”帮助用户缓解焦虑、改善睡眠。
+          首屏强调“慢节奏、可视化成长、心理安全感”的视觉节奏，使用雾蓝渐变、模糊浮层与圆角元素，营造疗愈氛围。
+        </p>
+        <div class="home-card" style="margin-top: 36px;">
+          <div class="home-card-content">
+            <div class="mini-pill">新手引导提示</div>
+            <h3>🌱 新朋友三步走</h3>
+            <p>1. 允许通知与 Health 数据 → 2. 跟随呼吸动画完成首次练习 → 3. 种下心灵世界第一颗树。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-widget">
+        <h3>沉浸式呼吸动画</h3>
+        <div class="breathing-circle"></div>
+        <div class="quote">“随着呼吸起伏，你的心灵世界正在慢慢苏醒。”</div>
+        <div class="mini-pill" style="background: rgba(255,255,255,0.2); color:#fff;">4-7-8 呼吸法 · 建议时长 5 分钟</div>
+        <p style="font-size: 14px; opacity: 0.8;">
+          支持震动节奏提示、背景音乐、暂停/继续，完成后自动记录能量值并触发解锁动画。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页面 #02 ｜ 首页核心模块 -->
+  <section class="page">
+    <header class="section-title">
+      <h2>首页 Home · 今日推荐 & 快速开始</h2>
+      <p>四大模块围绕“今日状态 + 呼吸入口 + 成就反馈 + 快捷导航”展开，结合多语言 Key-Value 文案和主题配色框架，确保全局一致性。</p>
+    </header>
+    <div class="card-grid home-preview">
+      <article class="home-card">
+        <div class="home-card-content">
+          <div class="mini-pill">今日心情</div>
+          <h3>世界在慢下来，先深呼吸一下</h3>
+          <p>根据 Apple Health 睡眠/心率数据生成推荐文案，并给出“最佳练习时段”提示。</p>
+        </div>
+      </article>
+      <article class="home-card">
+        <div class="home-card-content">
+          <div class="mini-pill">呼吸引导</div>
+          <h3>4-7-8 睡前放松</h3>
+          <p>✦ 时长 5 分钟 · 支持背景音乐与震动节奏 · 可加入收藏。订阅用户可解锁更多场景化练习。</p>
+        </div>
+      </article>
+      <article class="home-card">
+        <div class="home-card-content">
+          <div class="mini-pill">心灵世界 · 能量值</div>
+          <h3>能量值：320 ⚡</h3>
+          <p>今天的连续打卡为你的森林带来新的生机，快去心灵世界看看有什么变化吧。</p>
+        </div>
+      </article>
+      <article class="home-card">
+        <div class="home-card-content">
+          <div class="mini-pill">多语言 / 主题</div>
+          <h3>语言：中文 · 主题：默想森林</h3>
+          <p>设置中可随时切换语言、主题；订阅用户解锁 “Serenity / Aurora” 两套高级主题。</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 页面 #03 ｜ 心灵世界（Garden） -->
+  <section class="page">
+    <header class="section-title">
+      <h2>心灵世界 Garden · 游戏化养成</h2>
+      <p>参考 Forest 类养成体验，通过可视化成长强化正反馈。 SceneKit/SpriteKit 实现 3D/2D 场景，支持拖拽摆放、成就解锁与分享。</p>
+    </header>
+
+    <div class="garden-preview">
+      <div class="garden-canvas">
+        <div class="floating-item">🌳 大树 · 连续 7 天解锁</div>
+        <div class="floating-item">🏡 木屋 · 完成 10 次呼吸</div>
+        <div class="floating-item">🌸 花朵 · 完成 3 次引导</div>
+        <div class="floating-item">🌟 特殊元素 · 订阅专属</div>
+      </div>
+
+      <div>
+        <div class="home-card" style="background: rgba(255,255,255,0.92);">
+          <div class="home-card-content">
+            <div class="mini-pill">能量系统</div>
+            <h3>完成练习自动获得能量值</h3>
+            <p>完成一次呼吸 +10 ⚡，连续 7 天额外 +50 ⚡，连续 30 天额外 +200 ⚡。能量可用于解锁地形、植物、建筑与装饰元素。</p>
+          </div>
+        </div>
+
+        <div class="energy-stats">
+          <div class="energy-card">
+            <div class="mini-pill">当前能量</div>
+            <div class="energy-value">320 ⚡</div>
+            <p>距离解锁「湖泊」还需 80 ⚡</p>
+          </div>
+          <div class="energy-card">
+            <div class="mini-pill">今日完成</div>
+            <div class="energy-value">2 / 3</div>
+            <p>完成次数达成后可领取额外装饰品碎片。</p>
+          </div>
+        </div>
+
+        <div class="home-card" style="margin-top: 24px;">
+          <div class="home-card-content">
+            <div class="mini-pill">分享</div>
+            <h3>生成心灵世界海报</h3>
+            <p>支持导出带能量值与成就信息的分享卡片，便于用户在社交网络传播正向体验。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页面 #04 ｜ 健康报告（Report） -->
+  <section class="page">
+    <header class="section-title">
+      <h2>健康报告 Report · Apple Health 数据整合</h2>
+      <p>报告页面以“最近 7/30 天”为维度展示睡眠、心率、练习完成率等关键指标，并通过洞察语句结合呼吸练习提供建议。</p>
+    </header>
+
+    <div class="report-preview">
+      <article class="report-card">
+        <div class="mini-pill">趋势概览</div>
+        <h3>睡眠时长 & 呼吸完成率</h3>
+        <div class="chart-placeholder">折线图 / 堆叠柱状图占位</div>
+
+        <div class="report-cards-grid">
+          <div class="indicator-card">
+            <small>平均睡眠时长</small>
+            <div style="font-size: 24px; font-weight: 700; margin: 6px 0;">7.4 小时</div>
+            <div class="trend-up">↑ 较上周 +0.5h</div>
+            <p>夜间在 23:00 前完成呼吸练习时，睡眠时长更稳定。</p>
+          </div>
+          <div class="indicator-card">
+            <small>静息心率</small>
+            <div style="font-size: 24px; font-weight: 700; margin: 6px 0;">66 bpm</div>
+            <div class="trend-up">↓ 较上周 -2 bpm</div>
+            <p>呼吸练习后 3 小时内入睡，可有效平稳心率波动。</p>
+          </div>
+          <div class="indicator-card">
+            <small>呼吸完成率</small>
+            <div style="font-size: 24px; font-weight: 700; margin: 6px 0;">86%</div>
+            <p>建议保持每日 3 次，连续完成可解锁更多心灵元素。</p>
+          </div>
+          <div class="indicator-card">
+            <small>健康评分</small>
+            <div style="font-size: 24px; font-weight: 700; margin: 6px 0;">89 / 100</div>
+            <p>订阅用户可解锁历程回放与 PDF 报告导出功能。</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="report-card">
+        <div class="mini-pill">洞察 × 建议</div>
+        <h3>AI 洞察 · 呼吸练习与睡眠关联</h3>
+        <p style="margin-bottom: 12px;">
+          综合睡眠阶段、心率变异性与呼吸频率，自动生成与用户习惯匹配的洞察与建议。
+        </p>
+        <ul style="padding-left: 20px;">
+          <li>连续 7 天在睡前 30 分钟内进行 4-7-8 呼吸，深睡比例提升 12%。</li>
+          <li>工作日午间 12:30 前完成「专注提升」呼吸，可显著降低下午静息心率。</li>
+          <li>建议尝试晨间 3 分钟呼吸 → 夜晚 5 分钟冥想，形成“朝活化 · 夜安睡”的节奏。</li>
+        </ul>
+        <div class="home-card" style="margin-top: 18px;">
+          <div class="home-card-content">
+            <div class="mini-pill">数据隐私</div>
+            <h3>所有健康数据仅存储在本地</h3>
+            <p>遵从 Apple Health/GDPR 隐私规范，用户可随时撤销授权或导出数据。</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 页面 #05 ｜ 个人中心（Profile） -->
+  <section class="page">
+    <header class="section-title">
+      <h2>个人中心 Profile · 多语言 / 主题管理</h2>
+      <p>个人中心集合用户信息、数据统计、订阅状态、语言与主题管理等功能，遵循 “清晰、温柔、可控” 的交互语气。</p>
+    </header>
+
+    <div class="profile-preview">
+      <article class="profile-card">
+        <div class="profile-header">
+          <div class="avatar">KP</div>
+          <div>
+            <h3>以默 · Gui Pu</h3>
+            <div class="status-pill">Premium 会员 · 到期 2024/12/31</div>
+          </div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-tile">
+            <div class="stat-value">128</div>
+            <small>总练习次数</small>
+          </div>
+          <div class="stat-tile">
+            <div class="stat-value">356 分钟</div>
+            <small>总练习时长</small>
+          </div>
+          <div class="stat-tile">
+            <div class="stat-value">21 天</div>
+            <small>连续天数</small>
+          </div>
+          <div class="stat-tile">
+            <div class="stat-value">47</div>
+            <small>已解锁元素</small>
+          </div>
+        </div>
+        <div class="home-card" style="margin-top: 24px;">
+          <div class="home-card-content">
+            <div class="mini-pill">订阅管理</div>
+            <h3>查看订单与续费提醒</h3>
+            <p>支持恢复购买、推送到期提醒，过期后自动回退到默认主题并保留用户偏好记录。</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="settings-list">
+        <div class="settings-item">
+          <div>
+            <strong>语言与地区</strong>
+            <p style="margin: 4px 0;">中文（简体） · 支持英文、日文（Excel 导入，Key-Value 管理）</p>
+          </div>
+          <button style="padding: 10px 16px; border-radius: 12px; border: none; background: var(--color-accent); color: #fff;">切换</button>
+        </div>
+        <div class="settings-item">
+          <div>
+            <strong>主题中心</strong>
+            <p style="margin: 4px 0;">当前：Default · 订阅可解锁 Serenity & Aurora</p>
+          </div>
+          <button style="padding: 10px 16px; border-radius: 12px; border: none; background: var(--color-accent); color: #fff;">查看</button>
+        </div>
+        <div class="settings-item">
+          <div>
+            <strong>浅色 / 深色模式</strong>
+            <p style="margin: 4px 0;">跟随系统 / 手动选择</p>
+          </div>
+          <label style="display:flex; align-items:center; gap:8px;">
+            <span>跟随</span>
+            <input type="checkbox" checked />
+          </label>
+        </div>
+        <div class="settings-item">
+          <div>
+            <strong>通知提醒</strong>
+            <p style="margin: 4px 0;">每日提醒 · 成就通知 · 订阅到期提醒</p>
+          </div>
+          <button style="padding: 10px 16px; border-radius: 12px; border: none; background: rgba(95,185,149,0.18); color: var(--color-success);">管理</button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 页面 #06 ｜ 主题画廊 -->
+  <section class="page">
+    <header class="section-title">
+      <h2>主题画廊 Theme Gallery · 免费 / 订阅主题</h2>
+      <p>按照 PRD 与技术架构，默认主题免费，Serenity & Aurora 为订阅专属，所有主题需提供浅色/深色配色与多语言标签。</p>
+    </header>
+
+    <div class="themes-preview">
+      <article class="theme-card default">
+        <div class="mini-pill" style="background: rgba(255,255,255,0.25); color:#fff;">Default · 免费</div>
+        <h3>默想森林</h3>
+        <p style="opacity: 0.9;">雾蓝 × 柔紫，自带星光粒子背景。适合初次进入心灵世界的用户。</p>
+        <footer>浅色 / 深色方案已适配 · 可共享给所有用户</footer>
+      </article>
+
+      <article class="theme-card serenity">
+        <span class="theme-lock">订阅可解锁</span>
+        <div class="mini-pill" style="background: rgba(0,0,0,0.25); color:#fff;">Serenity · Premium</div>
+        <h3>澄澈绿洲</h3>
+        <p style="opacity: 0.9;">草本绿 × 沙粉色，强调自然疗愈。解锁后可获得专属元素与背景音乐。</p>
+        <footer>需要订阅 · 解锁后可分享主题海报</footer>
+      </article>
+
+      <article class="theme-card aurora">
+        <span class="theme-lock">订阅可解锁</span>
+        <div class="mini-pill" style="background: rgba(0,0,0,0.25); color:#fff;">Aurora · Premium</div>
+        <h3>梦境极光</h3>
+        <p style="opacity: 0.9;">淡蓝紫 × 夜空渐变，配合轻盈粒子动效，营造失重感与梦境氛围。</p>
+        <footer>需要订阅 · 支持夜间模式自动切换</footer>
+      </article>
+    </div>
+  </section>
+
+  <footer>
+    Grepu (歸朴) · 冥想与心灵世界 © 2025 · 根据 MRD / PRD / 技术架构 / 视觉规范整合<br />
+    设计原型仅用于概念展示 · 详细交互以实际产品迭代为准 · <a href="#">隐私政策</a> · <a href="#">用户协议</a>
+  </footer>
+</body>
+</html>
+
