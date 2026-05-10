@@ -9,7 +9,8 @@
 | 路径 | 说明 |
 |------|------|
 | `Doc/` | 需求、架构与原型等文档 |
-| `about/` | About 页面静态资源 |
+| `document/` | 对外静态页（原 About + 条款等）主目录，线上 canonical 为 `https://kanso.ltd/document/` |
+| `about/`、`terms/`（根目录） | 仅保留跳转至 `document/`，兼容旧书签与 App 内 `…/terms/…` 链接 |
 | `com.app.guipu/Grepu/` | **子模块** → [kinwah0706-crypto/Grepu](https://github.com/kinwah0706-crypto/Grepu)（Xcode 工程根目录） |
 
 远程约定：
