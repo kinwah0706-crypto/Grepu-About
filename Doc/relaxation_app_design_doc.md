@@ -174,5 +174,33 @@ Moodboard 是“视觉DNA”，概念草图是“体验场景”。
 
 ---
 
+# 十二、Grepu 二级页顶栏规范（**基准实现：`SettingsView`**）
+
+以下数值与行为以工程内 **`GrepuSecondaryPageChrome.swift`**（`GrepuSecondaryTitleBar` / `GrepuSecondaryTitleBarBottomSpacing`）及 **设置页** `SettingsView` 的用法为**页面设计标准**，供后续带「顶栏 + 中央标题」的二级页对齐。
+
+## 12.1 安全区与容器
+
+- **顶安全区**：由 **`NavigationStack` / 系统**处理；**禁止**在内容根上再叠一层与 `safeAreaInsets.top` 等高的占位，否则会出现「双层顶留白」。
+- **系统返回按钮**：使用自定义顶栏时配合 **`.navigationBarBackButtonHidden(true)`**，避免与系统返回键重复。
+
+## 12.2 标题栏行（自定义顶栏）
+
+| 项目 | 规范 |
+|------|------|
+| 标题栏行高 | **44 pt**（固定） |
+| 水平边距 | **16 pt**（相对屏幕左右） |
+| 返回图标 | `chevron.left`，**18 pt Medium**，颜色 `textPrimary` |
+| 返回触控区 | **44 × 44 pt** |
+| 标题 | **24 pt Bold**，**`tracking(-0.32)`**，`lineLimit(1)`，`minimumScaleFactor(0.85)`，颜色 `textPrimary` |
+| 右侧平衡 | **44 × 44 pt** 透明占位（使标题几何居中） |
+| 标题栏底 → 正文首内容 | **16 pt**（固定间距，通常用不占位的 `Color.clear.frame(height:)`） |
+
+## 12.3 与基准不一致时的处理原则
+
+- **系统导航栏**：法律文案页、恢复订阅说明等若使用 `.navigationTitle` + `toolbar`，属于**另一套**系统导航规范，不要求逐像素对齐 12.2，但需在交互稿中区分「自定义顶栏页」与「系统导航页」。
+- **模态 / 付费墙 / Sheet**：关闭钮位置、标题层级可能与二级推送页不同，以各场景产品稿为准；若产品要求统一品牌顶栏，再按 12.2 收敛。
+
+---
+
 （完）
 

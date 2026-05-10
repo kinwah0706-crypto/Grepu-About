@@ -7,3 +7,6 @@
 **/DerivedData/
 build/
 素材收集/
+
+# Grepu-Document 本地克隆（独立仓库，在 Grepu-Document/ 内 git push）
+Grepu-Document/
